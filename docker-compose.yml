@@ -21,20 +21,45 @@ services:
     user: root # This line ensures the script is run as root
     entrypoint: ["/bin/bash", "/entrypoint.sh"] # Start SSH and Jenkins
   remote_host:
-    container_name: remote-host
+    container_name: remote_host
     image: remote-host
+    hostname: remote_host
     build:
       context: centos7
     networks:
       - net
+    volumes:
+      - $PWD/minio.sh:/tmp/script.sh
+  db_host:
+    container_name: db
+    image: mysql:5.7
+    hostname: db_host
+    env_file:
+      - .env
+    volumes:
+      - "$PWD/data:/var/lib/mysql"
     networks:
       - net
-    user: root  # This line ensures the script is run as root
-    entrypoint: ["/bin/bash", "/entrypoint.sh"]  # Start SSH and Jenkins
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    hostname: minio
+    ports:
+      - "9000:9000" # S3 API
+      - "9090:9090" # Web UI
+    env_file:
+      - .env
+    volumes:
+      - minio_data:/data
+    command: server --address ":9001" --console-address ":9000" /data
+    restart: always
+    networks:
+      - net
 
 volumes:
   jenkins_home:
   ssh_config:
+  minio_data:
 
 networks:
   net:
