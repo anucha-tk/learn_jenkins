@@ -9,11 +9,24 @@ services:
     ports:
       - "8080:8080"
       - "22:22"
+    environment:
+      - TZ=Asia/Bangkok
     volumes:
       - jenkins_home:/var/jenkins_home
       - ssh_config:/etc/ssh
       - ./entrypoint.sh:/entrypoint.sh
-      - ./.env:/etc/environment  # Mount the .env file to the container
+      - ./.env:/etc/environment # Mount the .env file to the container
+    networks:
+      - net
+    user: root # This line ensures the script is run as root
+    entrypoint: ["/bin/bash", "/entrypoint.sh"] # Start SSH and Jenkins
+  remote_host:
+    container_name: remote-host
+    image: remote-host
+    build:
+      context: centos7
+    networks:
+      - net
     networks:
       - net
     user: root  # This line ensures the script is run as root

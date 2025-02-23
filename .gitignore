@@ -1,1 +1,7 @@
 .env
+data
+
+remote-key
+remote-key.pub
+*.pem
+*.key
