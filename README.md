@@ -6,6 +6,7 @@
   - [MYSQL \& MinIO](#mysql--minio)
     - [Access mysql from remote-host](#access-mysql-from-remote-host)
     - [Dump database](#dump-database)
+  - [Option install theme bash](#option-install-theme-bash)
 
 ## SSH
 ### Create key
@@ -27,4 +28,9 @@ root#remote: mysql -u root -h db_host -p
 ### Dump database
 ```bash
 root#remote: mysqldump -u root -h db_host -p testdb > /tmp/db.sql
+```
+
+## Option install theme bash
+```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)"
 ```

@@ -12,3 +12,5 @@ logs:
 	docker compose logs
 access:
 	@read -p "Enter container name: " c; docker exec -it $$c bash
+access-jenkins:
+	ssh jenkins_user_1@localhost -p 22

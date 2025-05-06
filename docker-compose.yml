@@ -1,8 +1,10 @@
 services:
   jenkins:
-    image: jenkins/jenkins
     container_name: jenkins
     hostname: jenkins
+    image: jenkins-ansible
+    build:
+      context: jenkins-ansible
     restart: always
     env_file:
       - .env
@@ -11,11 +13,12 @@ services:
       - "22:22"
     environment:
       - TZ=Asia/Bangkok
+      - HOME=/var/jenkins
     volumes:
-      - jenkins_home:/var/jenkins_home
-      - ssh_config:/etc/ssh
+      - $PWD/jenkins_home:/var/jenkins_home
       - ./entrypoint.sh:/entrypoint.sh
       - ./.env:/etc/environment # Mount the .env file to the container
+      - $PWD/Makefile:/home/jenkins/Makefile
     networks:
       - net
     user: root # This line ensures the script is run as root
@@ -58,7 +61,6 @@ services:
 
 volumes:
   jenkins_home:
-  ssh_config:
   minio_data:
 
 networks:

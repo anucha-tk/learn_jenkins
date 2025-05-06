@@ -1,5 +1,5 @@
 # Step 1: Build Stage (Install mc)
-FROM ubuntu:18.04 AS builder
+FROM ubuntu:latest AS builder
 
 # Install curl to download MinIO client
 RUN apt update && \
@@ -10,14 +10,14 @@ RUN curl -sL https://dl.min.io/client/mc/release/linux-amd64/mc -o mc && \
     chmod +x mc
 
 # Step 2: Final Stage (Minimal Image)
-FROM ubuntu:18.04
+FROM ubuntu:latest
 
 # Copy the MinIO client from the builder stage
 COPY --from=builder /mc /usr/local/bin/mc
 
 # Install OpenSSH and MySQL for runtime
 RUN apt update && \
-    apt install -y openssh-server mysql-server
+    apt install -y openssh-server mysql-server zsh
 
 # Create a new user and configure SSH directory
 RUN useradd remote_user && \

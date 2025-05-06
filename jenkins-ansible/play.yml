@@ -1,0 +1,5 @@
+- name: Test 1
+  hosts: test1
+  tasks:
+    - name: Write Hello World to file
+      shell: echo Hello World from jenkins v2 > /tmp/ansible-file

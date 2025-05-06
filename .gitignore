@@ -5,3 +5,5 @@ remote-key
 remote-key.pub
 *.pem
 *.key
+
+jenkins_home
